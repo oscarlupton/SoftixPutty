@@ -182,6 +182,7 @@ function Install-ADTDeployment
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'PortNumber' -Value 9901 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'WinTitle' -Value 'Ticketek.com Ticketing Server' -Type String
     }
+    Copy-ADTFile -Path '$($adtSession.DirFiles)\SoftixKeymap.exe' -DestinationPath '$envCommonStartUp\SoftixKeymap.exe'
 
     ##================================================
     ## MARK: Post-Install
@@ -189,7 +190,7 @@ function Install-ADTDeployment
     $adtSession.InstallPhase = "Post-$($adtSession.DeploymentType)"
 
     ## <Perform Post-Installation tasks here>
-
+    New-ADTShortcut -LiteralPath "$envCommonDesktop\Softix.lnk" -TargetPath "$envProgramFiles\PuTTY\putty.exe" -Arguments "-load \"Ticketek\"" -IconLocation "$envProgramFiles\PuTTY\putty.exe" -Description 'Softix Terminal'
 
     ## Display a message at the end of the install.
     if (!$adtSession.UseDefaultMsi)
