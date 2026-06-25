@@ -173,7 +173,7 @@ function Install-ADTDeployment
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'LineCodePage' -Value 'ISO-8859-1:1998 (Latin-1, West Europe)' -Type String
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'PassiveTelnet' -Value 0 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TelnetKey' -Value 0 -Type DWord
-        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TelnetRet' -Value 1 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TelnetRet' -Value 0 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermHeight' -Value 24 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermWidth' -Value 80 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TerminalType' -Value 'vt100' -Type String
