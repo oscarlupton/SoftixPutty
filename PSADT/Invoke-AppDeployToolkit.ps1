@@ -88,10 +88,10 @@ param
 # By setting the "AppName" property, Zero-Config MSI will be disabled.
 $adtSession = @{
     # App variables.
-    AppVendor = ''
-    AppName = ''
-    AppVersion = ''
-    AppArch = ''
+    AppVendor = 'Simon Tatham and AutoHotkey'
+    AppName = 'PuTTY and AutoHotkey'
+    AppVersion = '0.84'
+    AppArch = 'x64'
     AppLang = 'EN'
     AppRevision = '01'
     AppSuccessExitCodes = @(0)
@@ -99,7 +99,7 @@ $adtSession = @{
     AppProcessesToClose = @()  # Example: @('excel', @{ Name = 'winword'; Description = 'Microsoft Word' })
     AppScriptVersion = '1.0.0'
     AppScriptDate = '2026-06-25'
-    AppScriptAuthor = '<author name>'
+    AppScriptAuthor = 'Oscar Lupton'
     RequireAdmin = $true
 
     # Install Titles (Only set here to override defaults set by the toolkit).
@@ -164,7 +164,24 @@ function Install-ADTDeployment
     }
 
     ## <Perform Installation tasks here>
+    Start-ADTMsiProcess -Action Install -FilePath 'putty-64bit-0.84-installer.msi' -ArgumentList '/passive'
+    Invoke-ADTAllUsersRegistryAction -ScriptBlock {
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'BlinkCur' -Value 1 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'BlinkText' -Value 1 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'Font' -Value 'Lucida Console' -Type String
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'FontHeight' -Value 10 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'LineCodePage' -Value 'ISO-8859-1:1998 (Latin-1, West Europe)' -Type String
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'PassiveTelnet' -Value 0 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TelnetKey' -Value 0 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TelnetRet' -Value 1 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermHeight' -Value 24 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermWidth' -Value 80 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TerminalType' -Value 'vt100' -Type String
 
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'HostName' -Value 'active-1.ticketek.com.au' -Type String
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'PortNumber' -Value 9901 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'WinTitle' -Value 'Ticketek.com Ticketing Server' -Type String
+    }
 
     ##================================================
     ## MARK: Post-Install
