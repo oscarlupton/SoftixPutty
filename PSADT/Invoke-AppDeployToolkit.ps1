@@ -88,7 +88,7 @@ param
 # By setting the "AppName" property, Zero-Config MSI will be disabled.
 $adtSession = @{
     # App variables.
-    AppVendor = 'Simon Tatham and AutoHotkey'
+    AppVendor = 'Simon Tatham et al.'
     AppName = 'PuTTY and AutoHotkey'
     AppVersion = '0.84'
     AppArch = 'x64'
@@ -177,12 +177,12 @@ function Install-ADTDeployment
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermHeight' -Value 24 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TermWidth' -Value 80 -Type DWord
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'TerminalType' -Value 'vt100' -Type String
-
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'HostName' -Value 'active-1.ticketek.com.au' -Type String
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'PortNumber' -Value 9901 -Type DWord
+        Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'Protocol' -Value 'telnet' -Type String
         Set-ADTRegistryKey -SID $_.SID -LiteralPath 'HKCU\Software\SimonTatham\PuTTY\Sessions\Ticketek' -Name 'WinTitle' -Value 'Ticketek.com Ticketing Server' -Type String
     }
-    Copy-ADTFile -Path '$($adtSession.DirFiles)\SoftixKeymap.exe' -DestinationPath '$envCommonStartUp\SoftixKeymap.exe'
+    Copy-ADTFile -Path "$($adtSession.DirFiles)\SoftixKeymap.exe" -Destination "$envCommonStartUp\SoftixKeymap.exe"
 
     ##================================================
     ## MARK: Post-Install
@@ -190,12 +190,12 @@ function Install-ADTDeployment
     $adtSession.InstallPhase = "Post-$($adtSession.DeploymentType)"
 
     ## <Perform Post-Installation tasks here>
-    New-ADTShortcut -LiteralPath "$envCommonDesktop\Softix.lnk" -TargetPath "$envProgramFiles\PuTTY\putty.exe" -Arguments "-load \"Ticketek\"" -IconLocation "$envProgramFiles\PuTTY\putty.exe" -Description 'Softix Terminal'
+    New-ADTShortcut -LiteralPath "$envCommonDesktop\Softix.lnk" -TargetPath "$envProgramFiles\PuTTY\putty.exe" -Arguments "-load `"Ticketek`"" -IconLocation "$envProgramFiles\PuTTY\putty.exe" -Description 'Softix Terminal'
 
     ## Display a message at the end of the install.
     if (!$adtSession.UseDefaultMsi)
     {
-        Show-ADTInstallationPrompt -Message 'You can customize text to appear at the end of an install or remove it completely for unattended installations.' -ButtonRightText 'OK' -NoWait
+        Show-ADTInstallationPrompt -Message 'PuTTY and AHK successfully installed.' -ButtonRightText 'OK' -NoWait
     }
 }
 
